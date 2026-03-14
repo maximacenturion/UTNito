@@ -2,6 +2,15 @@
 
 NestJS + TypeScript backend service for the UTNito course project.
 
+## Quick Start
+
+```bash
+cd utn-utnito/full_project/backend/chat-core-service
+cp .env.example .env
+npm install
+npm run start:dev
+```
+
 ## Scope (Sprint 2)
 
 - Modular architecture with reusable base components
@@ -11,14 +20,13 @@ NestJS + TypeScript backend service for the UTNito course project.
 - Mock AI provider (`AI_PROVIDER=mock`)
 - Swagger documentation
 
-## Main URLs
-
-- Backend base URL: `http://localhost:5001`
-- Swagger UI: `http://localhost:5001/utn-chat-back/api`
-
 ## Environment Variables
 
 Use `.env.example` as reference:
+
+- `.env` is not versioned.
+- `.env.example` is versioned as a template for local setup.
+- For production, use secure environment secret management and do not commit real credentials.
 
 ```env
 SWAGGER_APP_TITLE=UTNito chat core service
@@ -42,6 +50,11 @@ AUTH_REFRESH_TOKEN_EXPIRATION=1d
 
 AI_PROVIDER=mock
 ```
+
+## Main URLs
+
+- Backend base URL: `http://localhost:5001`
+- Swagger UI: `http://localhost:5001/utn-chat-back/api`
 
 ## Conversation Status Model
 
@@ -74,13 +87,6 @@ State transitions implemented by the BFF:
 - `PATCH /chat-app/conversations/:conversationId/archive`
 - `GET /chat-app/conversations/:conversationId/messages`
 - `POST /chat-app/conversations/:conversationId/messages`
-
-## Run Locally
-
-```bash
-npm install
-npm run start:dev
-```
 
 ## Functional Validation Checklist (Swagger)
 
