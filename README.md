@@ -11,7 +11,7 @@ This repository contains the practical course material and implementation worksp
 ### Architecture (High Level)
 - Frontend: Angular (`chat-app`)
 - Backend: NestJS + TypeScript (`chat-core-service`)
-- Data layer: SQLite/PostgreSQL depending on sprint stage
+- Data layer: SQLite
 - Automation/AI layer: n8n workflows + provider integration
 - Container stack: `chat-docker`
 
@@ -20,7 +20,7 @@ This repository contains the practical course material and implementation worksp
 - Angular
 - NestJS
 - TypeORM
-- SQLite / PostgreSQL
+- SQLite
 - Docker / Docker Compose
 - n8n
 
@@ -48,7 +48,7 @@ Conceptual high-level diagram.
 For technical and up-to-date architecture details, see [`utn-utnito/full_project/README.md`](./utn-utnito/full_project).
 
 Port note:
-- Docker stack references: `4300` (frontend), `4012` (backend), `5690` (n8n), `5454` (PostgreSQL).
+- Docker stack references: `4300` (frontend), `4012` (backend), `5690` (n8n).
 - Local development references: `5300` (frontend), `5001` (backend).
 
 ## Español
@@ -59,7 +59,7 @@ Este repositorio contiene el material práctico de cursada y el espacio de imple
 ### Arquitectura (alto nivel)
 - Frontend: Angular (`chat-app`)
 - Backend: NestJS + TypeScript (`chat-core-service`)
-- Capa de datos: SQLite/PostgreSQL según la etapa de sprint
+- Capa de datos: SQLite
 - Capa de automatización/AI: workflows de n8n + integración de provider
 - Stack de contenedores: `chat-docker`
 
@@ -68,7 +68,7 @@ Este repositorio contiene el material práctico de cursada y el espacio de imple
 - Angular
 - NestJS
 - TypeORM
-- SQLite / PostgreSQL
+- SQLite
 - Docker / Docker Compose
 - n8n
 
@@ -96,5 +96,5 @@ Diagrama conceptual de alto nivel.
 Para el detalle técnico actualizado, ver [`utn-utnito/full_project/README.md`](./utn-utnito/full_project).
 
 Nota de puertos:
-- Referencias del stack Docker: `4300` (frontend), `4012` (backend), `5690` (n8n), `5454` (PostgreSQL).
+- Referencias del stack Docker: `4300` (frontend), `4012` (backend), `5690` (n8n).
 - Referencias de desarrollo local: `5300` (frontend), `5001` (backend).
