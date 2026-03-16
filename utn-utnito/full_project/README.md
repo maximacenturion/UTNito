@@ -54,16 +54,16 @@ NestJS chat-core-service -> n8n webhook workflow -> OpenAI API -> n8n -> NestJS 
 
 Local development:
 
-- Frontend: `http://localhost:5300`
-- Backend: `http://localhost:5001`
-- Swagger: `http://localhost:5001/utn-chat-back/api`
+- Frontend: [http://localhost:5300](http://localhost:5300)
+- Backend: [http://localhost:5001](http://localhost:5001)
+- Swagger: [http://localhost:5001/utn-chat-back/api](http://localhost:5001/utn-chat-back/api)
 
 Docker stack:
 
 - Frontend: `http://localhost:4300`
 - Backend: `http://localhost:4012`
 - Swagger: `http://localhost:4012/utn-chat-back/api`
-- n8n: `http://localhost:5690`
+- n8n: [http://localhost:5690](http://localhost:5690)
 
 <a id="frontend-en"></a>
 
@@ -190,16 +190,16 @@ NestJS chat-core-service -> webhook de n8n -> API de OpenAI -> n8n -> NestJS -> 
 
 Desarrollo local:
 
-- Frontend: `http://localhost:5300`
-- Backend: `http://localhost:5001`
-- Swagger: `http://localhost:5001/utn-chat-back/api`
+- Frontend: [http://localhost:5300](http://localhost:5300)
+- Backend: [http://localhost:5001](http://localhost:5001)
+- Swagger: [http://localhost:5001/utn-chat-back/api](http://localhost:5001/utn-chat-back/api)
 
 Stack con Docker:
 
 - Frontend: `http://localhost:4300`
 - Backend: `http://localhost:4012`
 - Swagger: `http://localhost:4012/utn-chat-back/api`
-- n8n: `http://localhost:5690`
+- n8n: [http://localhost:5690](http://localhost:5690)
 
 <a id="frontend-es"></a>
 
