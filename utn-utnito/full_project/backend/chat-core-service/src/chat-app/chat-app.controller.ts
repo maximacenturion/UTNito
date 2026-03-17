@@ -116,6 +116,7 @@ export class ChatAppController extends AbstractController {
   ): Promise<ResponseObject<CreateMessageResponse>> {
     const response = await this.chatAppService.createMessage(
       request.user.sub,
+      request.user.displayName,
       conversationId,
       createRequest,
     );

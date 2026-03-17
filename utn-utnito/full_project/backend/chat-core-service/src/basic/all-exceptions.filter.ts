@@ -8,6 +8,7 @@ import {
 } from '@nestjs/common';
 import { HttpAdapterHost } from '@nestjs/core';
 import { ResponseBuilder } from './response.builder';
+import { ErrorUtils } from '../shared/error/error.utils';
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
@@ -23,22 +24,22 @@ export class AllExceptionsFilter implements ExceptionFilter {
     const httpStatus =
       exception instanceof HttpException ? exception.getStatus() : HttpStatus.INTERNAL_SERVER_ERROR;
 
-    const requestInfo = request
-      ? `${request.method} ${request.url} - Body: ${JSON.stringify(request.body || {})}`
-      : 'No request context available';
+    const requestInfo = ErrorUtils.buildRequestInfo(request);
 
-    this.logger.error(
-      `Error: ${exception?.message || 'Unknown error'} | Request: ${requestInfo} | Stack: ${exception?.stack || 'No stack'}`,
-    );
+    this.logger.error(ErrorUtils.buildLogMessage(exception, requestInfo));
 
     if (host.getType() !== 'http') {
       return;
     }
 
-    const responseBody = new ResponseBuilder<any>().createFailureResponse(
-      null,
-      exception?.message || 'An unexpected error occurred',
-    );
+    const exceptionDetails = ErrorUtils.extractExceptionDetails(exception, httpStatus);
+    const responseBody = exceptionDetails.messageCode
+      ? new ResponseBuilder<any>().createFailureResponse(
+          null,
+          exceptionDetails.messageCode,
+          exceptionDetails.message,
+        )
+      : new ResponseBuilder<any>().createFailureResponse(null, exceptionDetails.message);
 
     httpAdapter.reply(ctx.getResponse(), responseBody, httpStatus);
   }

@@ -1,0 +1,9 @@
+/* Class 03 start styles: this file is completed step by step in class. */
+body {
+  background-color: #1f2024;
+  color: #ececf1;
+}
+
+.chat-start {
+  padding: 24px;
+}

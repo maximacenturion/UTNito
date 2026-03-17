@@ -1,10 +1,10 @@
 import { HttpService } from '@nestjs/axios';
-import { HttpException, HttpStatus, Logger } from '@nestjs/common';
+import { HttpException, Logger } from '@nestjs/common';
 import { firstValueFrom } from 'rxjs';
 import { v4 as uuidv4 } from 'uuid';
 import { ResponseBuilder } from './response.builder';
-import { ResponseMessage } from './response-message';
 import { ResponseObject } from './response-object';
+import { ErrorUtils } from 'src/shared/error/error.utils';
 
 export abstract class AbstractService {
   private readonly serviceLogger = new Logger(AbstractService.name);
@@ -48,23 +48,18 @@ export abstract class AbstractService {
   private handleHttpError(error: any, url: string): never {
     this.serviceLogger.error(`Request to ${url} failed`, error?.stack);
 
-    let responseMessage: ResponseMessage;
-    let statusCode: HttpStatus;
-
-    if (error?.response) {
-      responseMessage = new ResponseMessage(error.response.data);
-      statusCode = error.response.status;
-    } else if (error?.request) {
-      responseMessage = new ResponseMessage('No response received from external service');
-      statusCode = HttpStatus.SERVICE_UNAVAILABLE;
-    } else {
-      responseMessage = new ResponseMessage(error?.message || 'Unexpected error');
-      statusCode = HttpStatus.INTERNAL_SERVER_ERROR;
-    }
+    const errorDetails = ErrorUtils.extractExternalHttpErrorDetails(error);
+    const responseBody = errorDetails.messageCode
+      ? new ResponseBuilder<any>().createFailureResponse(
+          null,
+          errorDetails.messageCode,
+          errorDetails.message,
+        )
+      : new ResponseBuilder<any>().createFailureResponse(null, errorDetails.message);
 
     throw new HttpException(
-      new ResponseBuilder<any>().createFailureResponse(null, responseMessage.getMessage()),
-      statusCode,
+      responseBody,
+      errorDetails.statusCode,
     );
   }
 }

@@ -105,10 +105,11 @@ export class ChatAppService {
 
   async createMessage(
     userId: string,
+    userDisplayName: string,
     conversationId: string,
     request: CreateMessageRequest,
   ): Promise<CreateMessageResponse> {
     await this.activateConversation(userId, conversationId);
-    return this.messageService.createMessage(userId, conversationId, request);
+    return this.messageService.createMessage(userId, userDisplayName, conversationId, request);
   }
 }

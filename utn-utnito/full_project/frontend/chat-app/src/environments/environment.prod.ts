@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  chatTitle: 'UTNito',
+  agentName: 'UTNito',
   chatAgentVersion: 'v1',
   coreServiceUrl: 'http://localhost:5001',
   routeLogin: 'login',

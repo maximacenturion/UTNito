@@ -1,0 +1,34 @@
+body {
+  margin: 0;
+  background-color: #1f2024;
+  color: #ececf1;
+  font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.demo-page {
+  padding: 24px;
+}
+
+.flex-container {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+  padding: 12px;
+  border: 1px solid #3c4050;
+  border-radius: 10px;
+  background-color: #252833;
+  flex-direction: row;
+}
+
+.flex-item {
+  width: 80px;
+  height: 80px;
+  border-radius: 10px;
+  background-color: #cf5f6f;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 24px;
+}

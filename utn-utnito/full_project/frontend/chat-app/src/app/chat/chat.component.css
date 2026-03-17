@@ -1,8 +1,9 @@
 /* Main chat shell styles (desktop + mobile drawer) for the Angular app. */
 .chat-shell {
-  min-height: 100vh;
+  height: 100vh;
   display: grid;
   grid-template-columns: 300px 1fr;
+  overflow: hidden;
 }
 
 .sidebar-backdrop {
@@ -17,7 +18,8 @@
   padding: 10px;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .sidebar-top {
@@ -111,6 +113,7 @@
   margin-top: 8px;
   display: grid;
   gap: 6px;
+  min-height: 0;
   overflow: auto;
 }
 
@@ -321,9 +324,11 @@
 
 .chat-main {
   min-width: 0;
+  min-height: 0;
   background: linear-gradient(180deg, var(--bg-page) 0%, #1d1f25 100%);
   display: grid;
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  overflow: hidden;
 }
 
 .chat-header {
@@ -422,7 +427,9 @@
   flex-direction: column;
   align-items: stretch;
   gap: 16px;
-  overflow: auto;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .message {

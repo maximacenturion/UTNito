@@ -6,6 +6,8 @@ import { ConversationStatus } from '../core/model/conversation-status.enum';
 import { Message } from '../core/model/message.model';
 import { MessageRole } from '../core/model/message-role.enum';
 import { AuthUser } from '../core/model/auth-user.model';
+import { ApiError } from '../core/model/api-error.model';
+import { isApiErrorCode } from '../core/model/api-error-code.enum';
 import { AuthService } from '../core/service/auth.service';
 import { ChatApiService } from '../core/service/chat-api.service';
 import { I18nService } from '../core/service/i18n.service';
@@ -19,7 +21,7 @@ import { environment } from '../../environments/environment';
 })
 export class ChatComponent implements OnInit {
   readonly messageRole = MessageRole;
-  readonly agentName = environment.chatTitle;
+  readonly agentName = environment.agentName;
   readonly agentVersion = environment.chatAgentVersion;
 
   currentUser: AuthUser | null = null;
@@ -119,8 +121,8 @@ export class ChatComponent implements OnInit {
         next: (conversation) => {
           this.loadConversations(conversation.conversationId);
         },
-        error: (error: Error) => {
-          this.errorMessage = error.message;
+        error: (error: unknown) => {
+          this.setErrorMessageFromUnknown(error);
         },
       });
   }
@@ -143,8 +145,8 @@ export class ChatComponent implements OnInit {
           this.closeSidebar();
         }
       },
-      error: (error: Error) => {
-        this.errorMessage = error.message;
+      error: (error: unknown) => {
+        this.setErrorMessageFromUnknown(error);
       },
     });
   }
@@ -176,8 +178,8 @@ export class ChatComponent implements OnInit {
 
           this.loadConversations(preferredConversationId);
         },
-        error: (error: Error) => {
-          this.errorMessage = error.message;
+        error: (error: unknown) => {
+          this.setErrorMessageFromUnknown(error);
         },
       });
   }
@@ -253,8 +255,8 @@ export class ChatComponent implements OnInit {
           );
           this.cancelRenameConversation();
         },
-        error: (error: Error) => {
-          this.errorMessage = error.message;
+        error: (error: unknown) => {
+          this.setErrorMessageFromUnknown(error);
         },
       });
   }
@@ -284,8 +286,8 @@ export class ChatComponent implements OnInit {
           this.messages = [...this.messages, response.userMessage, response.assistantMessage];
           this.touchConversation(response.conversationId);
         },
-        error: (error: Error) => {
-          this.errorMessage = error.message;
+        error: (error: unknown) => {
+          this.setErrorMessageFromUnknown(error);
         },
       });
   }
@@ -355,8 +357,8 @@ export class ChatComponent implements OnInit {
             this.selectConversation(targetConversation);
           }
         },
-        error: (error: Error) => {
-          this.errorMessage = error.message;
+        error: (error: unknown) => {
+          this.setErrorMessageFromUnknown(error);
         },
       });
   }
@@ -375,8 +377,8 @@ export class ChatComponent implements OnInit {
         next: (pagination) => {
           this.messages = pagination.data;
         },
-        error: (error: Error) => {
-          this.errorMessage = error.message;
+        error: (error: unknown) => {
+          this.setErrorMessageFromUnknown(error);
         },
       });
   }
@@ -453,5 +455,20 @@ export class ChatComponent implements OnInit {
 
   private isMobileViewport(): boolean {
     return window.matchMedia('(max-width: 767px)').matches;
+  }
+
+  private setErrorMessageFromUnknown(error: unknown): void {
+    if (error instanceof ApiError && error.code && isApiErrorCode(error.code)) {
+      const localizedMessage = this.i18n.t(`chat.error.${error.code}`);
+      this.errorMessage = localizedMessage.startsWith('chat.error.') ? error.message : localizedMessage;
+      return;
+    }
+
+    if (error instanceof Error && error.message) {
+      this.errorMessage = error.message;
+      return;
+    }
+
+    this.errorMessage = this.i18n.t('chat.error.generic');
   }
 }

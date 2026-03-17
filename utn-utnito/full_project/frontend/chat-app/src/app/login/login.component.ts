@@ -13,7 +13,7 @@ import { I18nService } from '../core/service/i18n.service';
   standalone: false,
 })
 export class LoginComponent implements OnInit {
-  readonly agentName = environment.chatTitle;
+  readonly agentName = environment.agentName;
 
   loginForm: FormGroup;
   isSubmitting = false;

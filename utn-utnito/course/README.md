@@ -15,6 +15,7 @@ Clases actuales:
 
 - [`class-01-setup-hello-world`](./class-01-setup-hello-world)
 - [`class-02-html-login-basics`](./class-02-html-login-basics)
+- [`class-03-css-chat-layout`](./class-03-css-chat-layout)
 
 ## English
 
@@ -31,3 +32,4 @@ Current classes:
 
 - [`class-01-setup-hello-world`](./class-01-setup-hello-world)
 - [`class-02-html-login-basics`](./class-02-html-login-basics)
+- [`class-03-css-chat-layout`](./class-03-css-chat-layout)
