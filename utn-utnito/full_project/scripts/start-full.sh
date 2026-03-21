@@ -5,8 +5,9 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
 DOCKER_DIR="${PROJECT_DIR}/chat-docker"
 COMPOSE_FILE="${DOCKER_DIR}/docker-compose.yml"
-ENV_FILE="${DOCKER_DIR}/.env"
-ENV_EXAMPLE_FILE="${DOCKER_DIR}/.env.example"
+FRONTEND_PORT=4300
+CORE_SERVICE_PORT=4012
+N8N_PORT=5690
 
 log_info() {
   printf '[INFO] %s\n' "$1"
@@ -42,25 +43,17 @@ wait_for_http() {
   return 1
 }
 
-if [[ ! -f "${ENV_FILE}" ]]; then
-  cp "${ENV_EXAMPLE_FILE}" "${ENV_FILE}"
-  log_warn "Missing .env file. Created ${ENV_FILE} from .env.example."
-fi
-
 log_info "Running diagnostics before startup (full mode)."
 "${SCRIPT_DIR}/doctor.sh" full
 
 log_info "Starting full project stack (chat-frontend, chat-core-service, chat-n8n)."
-docker compose --env-file "${ENV_FILE}" -f "${COMPOSE_FILE}" --profile full up -d
+docker compose -f "${COMPOSE_FILE}" --profile full up -d
 
 log_info "Current container status:"
-docker compose --env-file "${ENV_FILE}" -f "${COMPOSE_FILE}" ps
+docker compose -f "${COMPOSE_FILE}" ps
 
-# shellcheck disable=SC1090
-set -a && source "${ENV_FILE}" && set +a
-
-wait_for_http "http://localhost:${CORE_SERVICE_PORT:-4012}/health" "chat-core-service health endpoint" || true
-wait_for_http "http://localhost:${FRONTEND_PORT:-4300}" "chat-frontend" || true
-wait_for_http "http://localhost:${N8N_PORT:-5690}" "chat-n8n" || true
+wait_for_http "http://localhost:${CORE_SERVICE_PORT}/health" "chat-core-service health endpoint" || true
+wait_for_http "http://localhost:${FRONTEND_PORT}" "chat-frontend" || true
+wait_for_http "http://localhost:${N8N_PORT}" "chat-n8n" || true
 
 log_info "utn-utnito full stack is running."

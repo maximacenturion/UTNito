@@ -1,7 +1,7 @@
 import { ConfigService } from '@nestjs/config';
 import { GenerateReplyRequest } from '../ai-provider.interface';
 
-export function buildChatGptMessagePrompt(
+export function buildAssistantMessagePrompt(
   configService: ConfigService,
   request: GenerateReplyRequest,
 ): string {
@@ -22,8 +22,6 @@ export function buildChatGptMessagePrompt(
     })
     .join('\n');
 
-  const rawRecentMessages = JSON.stringify(request.recentMessages, null, 2);
-
   return `
 You are ${assistantName}, ${assistantDescription}.
 
@@ -33,10 +31,14 @@ Personality:
 Important behavior rules:
 - Keep responses concise and practical.
 - Help the user move forward step by step.
-- If context is unclear, ask one short clarifying question.
+- Use "Recent conversation context" as the source of truth for conversation memory.
+- Keep continuity with the latest user message and prior turns; avoid disconnected replies.
+- If the user asks "what were we talking about?" or asks to remember something, summarize based on the provided history.
+- If requested memory is not present in the provided history, say so clearly and ask one short clarifying question.
+- Do not contradict prior context unless you explicitly correct a previous mistake.
 - Never invent technical facts.
 - Respond in the same language used by the latest user message.
-- If the user sends a greeting, greet the user back in the next reply using their name ("${request.userDisplayName}").
+- If the user sends a greeting, greet the user back using their name ("${request.userDisplayName}").
 
 Response format (MANDATORY JSON):
 - Return only valid JSON.
@@ -56,10 +58,5 @@ Latest user message:
 
 Current user:
 "${request.userDisplayName}"
-
-Raw recent messages (JSON):
-\`\`\`json
-${rawRecentMessages}
-\`\`\`
 `.trim();
 }

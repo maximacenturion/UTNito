@@ -17,7 +17,7 @@ This repository contains the practical course implementation for **Programacion 
 - Backend: NestJS + TypeScript + TypeORM
 - Database: SQLite (chat-core-service)
 - AI orchestration: n8n
-- AI provider: OpenAI (through n8n workflow)
+- AI providers: OpenAI (cloud) and Ollama local via Docker (through n8n workflows)
 - Infra: Docker + Docker Compose
 
 ### Navigation
@@ -26,10 +26,12 @@ This repository contains the practical course implementation for **Programacion 
 - [Frontend](#frontend-en)
 - [Backend](#backend-en)
 - [Docker](#docker-en)
+- [Ollama Guide](backend/ollama/README.md)
 - [Arquitectura](#architecture-es)
 - [Frontend (ES)](#frontend-es)
 - [Backend (ES)](#backend-es)
 - [Docker (ES)](#docker-es)
+- [Guia de Ollama](backend/ollama/README.md)
 
 <a id="architecture-en"></a>
 
@@ -41,13 +43,13 @@ User -> Angular app -> NestJS chat-core-service -> SQLite
 
 For AI responses:
 
-NestJS chat-core-service -> n8n webhook workflow -> OpenAI API -> n8n -> NestJS -> Angular
+NestJS chat-core-service -> n8n webhook workflow -> OpenAI (cloud) or Ollama local (`chat-ollama` in Docker) -> n8n -> NestJS -> Angular
 
 #### Main components
 
 - `frontend/chat-app`: login + chat UI, conversations, messages, auth-aware client
 - `backend/chat-core-service`: auth, chat-app BFF, conversations, messages, AI provider strategy
-- `chat-docker`: compose stack to run n8n-only or full stack
+- `chat-docker`: compose stack to run n8n-only, full stack, and optional local Ollama (`chat-ollama`)
 - `backend/n8n/workflows`: n8n workflows used by the backend AI provider
 
 #### Ports and URLs
@@ -64,6 +66,7 @@ Docker stack:
 - Backend: `http://localhost:4012`
 - Swagger: `http://localhost:4012/utn-chat-back/api`
 - n8n: [http://localhost:5690](http://localhost:5690)
+- Ollama (optional): [http://localhost:8300](http://localhost:8300)
 
 <a id="frontend-en"></a>
 
@@ -103,19 +106,18 @@ Important note about `.env`:
 - `.env` is local and not committed.
 - Use `.env.example` as the template.
 - By default, the backend runs in `mock` AI mode (`AI_PROVIDER=mock`).
-- To use ChatGPT through n8n, follow the Docker section.
+- To use ChatGPT or Ollama through n8n, follow the Docker section.
 
 <a id="docker-en"></a>
 
 ### Docker
 
-Docker is used to run infrastructure and integration scenarios, especially **n8n** for AI orchestration.
+Docker is used to run infrastructure and integration scenarios, especially **n8n** for AI orchestration and optional **local Ollama** runtime.
 
 #### 1) Start only n8n (recommended first step)
 
 ```bash
 cd utn-utnito/full_project/chat-docker
-cp .env.example .env
 docker compose up -d chat-n8n
 ```
 
@@ -134,12 +136,25 @@ docker compose --profile full up -d
 2. Import workflow:
    - `backend/n8n/workflows/utnito/utnito_chatgpt_message_response.json`
 3. Configure OpenAI credentials in n8n.
-4. In backend `.env`, set:
+4. In `backend/chat-core-service/.env.docker`, set:
    - `AI_PROVIDER=chatgpt`
-   - `AI_N8N_WEBHOOK_URL=http://localhost:5690/webhook/utnito-prompt-processing`
+   - `AI_N8N_WEBHOOK_URL=http://chat-n8n:5678/webhook/utnito-prompt-processing`
 5. Restart backend service.
 
 If n8n/OpenAI fails, backend fallback behavior is controlled by `AI_ON_ERROR_FALLBACK`.
+
+#### 4) Configure Ollama integration (n8n + Ollama)
+
+Use the dedicated guide:
+
+- [`backend/ollama/README.md`](./backend/ollama)
+
+This guide includes:
+
+- Ollama Docker vs Ollama Local setup
+- n8n + backend environment variables
+- workflow import and webhook wiring
+- suggested Ollama models by resource profile
 
 ---
 
@@ -157,7 +172,7 @@ Este repositorio contiene el material práctico de implementación de **Programa
 - Backend: NestJS + TypeScript + TypeORM
 - Base de datos: SQLite (chat-core-service)
 - Orquestación IA: n8n
-- Proveedor IA: OpenAI (mediante workflow de n8n)
+- Proveedores IA: OpenAI (cloud) y Ollama local vía Docker (mediante workflows de n8n)
 - Infraestructura: Docker + Docker Compose
 
 ### Navegación
@@ -166,6 +181,7 @@ Este repositorio contiene el material práctico de implementación de **Programa
 - [Frontend](#frontend-es)
 - [Backend](#backend-es)
 - [Docker](#docker-es)
+- [Guia de Ollama](backend/ollama/README.md)
 
 <a id="architecture-es"></a>
 
@@ -177,13 +193,13 @@ Usuario -> Angular -> NestJS chat-core-service -> SQLite
 
 Para respuestas de IA:
 
-NestJS chat-core-service -> webhook de n8n -> API de OpenAI -> n8n -> NestJS -> Angular
+NestJS chat-core-service -> webhook de n8n -> OpenAI (cloud) u Ollama local (`chat-ollama` en Docker) -> n8n -> NestJS -> Angular
 
 #### Componentes principales
 
 - `frontend/chat-app`: login + UI de chat, conversaciones, mensajes, cliente con autenticación
 - `backend/chat-core-service`: auth, BFF de chat-app, conversaciones, mensajes, estrategia de proveedores IA
-- `chat-docker`: stack de compose para levantar solo n8n o el stack completo
+- `chat-docker`: stack de compose para levantar solo n8n, el stack completo y Ollama local opcional (`chat-ollama`)
 - `backend/n8n/workflows`: workflows de n8n utilizados por el backend
 
 #### Puertos y URLs
@@ -200,6 +216,7 @@ Stack con Docker:
 - Backend: `http://localhost:4012`
 - Swagger: `http://localhost:4012/utn-chat-back/api`
 - n8n: [http://localhost:5690](http://localhost:5690)
+- Ollama (opcional): [http://localhost:8300](http://localhost:8300)
 
 <a id="frontend-es"></a>
 
@@ -239,19 +256,18 @@ Importante sobre `.env`:
 - `.env` es local y no se comitea.
 - `.env.example` se usa como plantilla.
 - Por defecto, el backend corre en modo IA mock (`AI_PROVIDER=mock`).
-- Si querés usar ChatGPT mediante n8n, seguí la sección Docker.
+- Si querés usar ChatGPT u Ollama mediante n8n, seguí la sección Docker.
 
 <a id="docker-es"></a>
 
 ### Docker
 
-Docker se usa para levantar infraestructura e integración, especialmente **n8n** como orquestador de IA.
+Docker se usa para levantar infraestructura e integración, especialmente **n8n** como orquestador de IA y **Ollama local** opcional.
 
 #### 1) Levantar solo n8n (primer paso recomendado)
 
 ```bash
 cd utn-utnito/full_project/chat-docker
-cp .env.example .env
 docker compose up -d chat-n8n
 ```
 
@@ -270,9 +286,22 @@ docker compose --profile full up -d
 2. Importar el workflow:
    - `backend/n8n/workflows/utnito/utnito_chatgpt_message_response.json`
 3. Configurar credenciales de OpenAI dentro de n8n.
-4. En el `.env` del backend, definir:
+4. En `backend/chat-core-service/.env.docker`, definir:
    - `AI_PROVIDER=chatgpt`
-   - `AI_N8N_WEBHOOK_URL=http://localhost:5690/webhook/utnito-prompt-processing`
+   - `AI_N8N_WEBHOOK_URL=http://chat-n8n:5678/webhook/utnito-prompt-processing`
 5. Reiniciar el backend.
 
 Si falla n8n/OpenAI, el fallback del backend se controla con `AI_ON_ERROR_FALLBACK`.
+
+#### 4) Configurar integración con Ollama (n8n + Ollama)
+
+Usá la guía dedicada:
+
+- [`backend/ollama/README.md`](./backend/ollama)
+
+Esa guía incluye:
+
+- configuración Ollama Docker vs Ollama Local
+- variables de entorno de n8n y backend
+- import del workflow y conexión del webhook
+- modelos sugeridos de Ollama según perfil de recursos
