@@ -17,6 +17,8 @@ Clases actuales:
 - [`class-02-html-login-basics`](./class-02-html-login-basics)
 - [`class-03-css-chat-layout`](./class-03-css-chat-layout)
 - [`class-04-javascript-fetch-basics`](./class-04-javascript-fetch-basics)
+- [`class-05-angular-migrate-login-chat`](./class-05-angular-migrate-login-chat)
+- [`class-06-angular-components-routing`](./class-06-angular-components-routing)
 
 ## English
 
@@ -35,3 +37,5 @@ Current classes:
 - [`class-02-html-login-basics`](./class-02-html-login-basics)
 - [`class-03-css-chat-layout`](./class-03-css-chat-layout)
 - [`class-04-javascript-fetch-basics`](./class-04-javascript-fetch-basics)
+- [`class-05-angular-migrate-login-chat`](./class-05-angular-migrate-login-chat)
+- [`class-06-angular-components-routing`](./class-06-angular-components-routing)

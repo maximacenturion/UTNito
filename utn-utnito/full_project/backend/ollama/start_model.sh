@@ -1,6 +1,25 @@
 #!/bin/sh
 set -e
 
+unload_active_models() {
+  ACTIVE_MODELS="$(ollama ps 2>/dev/null | awk 'NR > 1 && $1 != "" { print $1 }' | sort -u)"
+
+  if [ -z "${ACTIVE_MODELS}" ]; then
+    echo "[chat-ollama] No active models to unload."
+    return 0
+  fi
+
+  echo "[chat-ollama] Unloading active models before startup."
+  echo "${ACTIVE_MODELS}" | while IFS= read -r active_model; do
+    [ -z "${active_model}" ] && continue
+
+    echo "[chat-ollama] Stopping active model: ${active_model}"
+    if ! ollama stop "${active_model}" >/dev/null 2>&1; then
+      echo "[chat-ollama] Warning: failed to stop active model ${active_model}."
+    fi
+  done
+}
+
 ollama serve &
 SERVER_PID=$!
 
@@ -19,6 +38,8 @@ while ! ollama list >/dev/null 2>&1; do
   ATTEMPT=$((ATTEMPT + 1))
   sleep 2
 done
+
+unload_active_models
 
 echo "[chat-ollama] Ensuring model is available: ${MODEL_NAME}"
 if ! ollama show "${MODEL_NAME}" >/dev/null 2>&1; then

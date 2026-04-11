@@ -44,8 +44,8 @@ wait_for_http() {
 log_info "Running diagnostics before startup (ollama mode)."
 "${SCRIPT_DIR}/doctor.sh" ollama
 
-log_info "Starting optional Ollama service."
-docker compose -f "${COMPOSE_FILE}" --profile ollama up -d chat-ollama
+log_info "Starting optional Ollama service with container recreation."
+docker compose -f "${COMPOSE_FILE}" --profile ollama up -d --force-recreate chat-ollama
 
 log_info "Current container status:"
 docker compose -f "${COMPOSE_FILE}" ps
