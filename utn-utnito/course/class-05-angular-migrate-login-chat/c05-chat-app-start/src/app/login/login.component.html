@@ -1,33 +1,38 @@
-<main class="login-page">
-  <section class="login-card">
-    <header class="brand-block">
-      <img src="assets/utnito-logo.svg" alt="UTNito logo" class="brand-logo" />
+<main class="login-page"> <!-- Contenedor principal de la página de login -->
+  <section class="login-card">  <!-- Tarjeta centrada que agrupa todo el contenido -->
+    <header class="brand-block"> <!-- Encabezado con logo y título -->
+      <img src="assets/utnito-logo.svg" alt="UTNito logo" class="brand-logo" />  <!-- Logo de la app -->
       <h1>Welcome to UTNito</h1>
       <p class="subtitle">Sign in to chat with <strong>UTNito</strong>.</p>
     </header>
-
-    <form class="login-form" (submit)="onSubmit($event, usernameInput.value)" novalidate>
-      <label for="username">Username</label>
-      <input
-        #usernameInput
-        id="username"
+    <!-- Formulario de login -->
+    <!-- (submit) llama a onSubmit() del componente cuando se envía el form -->
+    <!-- $event es el evento nativo del submit -->
+    <!-- usernameInput.value pasa el valor del input de username (via variable de template) -->
+    <!-- novalidate desactiva la validación nativa del navegador -->
+    <form class="login-form" (submit)="onSubmit($event, usernameInput.value)" novalidate> 
+      <label for="username">Username</label> 
+      <input 
+        #usernameInput 
+        id="username" 
         name="username"
         type="text"
         placeholder="e.g. carlos.gardel"
-      />
-
+      /> <!-- Variable de template (#usernameInput): permite acceder a este input desde el HTML -->
+        <!-- id="username" Vincula el input con el label de arriba -->
       <label for="password">Password</label>
       <input
         id="password"
         name="password"
-        type="password"
+        type="password" 
         placeholder="Enter your password"
-      />
+      /> <!-- id="password" Vincula el input con el label de arriba -->
 
-      <button type="submit">Login</button>
+      <button type="submit">Login</button> <!-- Dispara el evento (submit) del form -->
+
     </form>
 
-    <footer class="login-footer">
+    <footer class="login-footer"> <!-- Pie de la tarjeta: info académica, no es interactivo -->
       <p class="program-name">UTN Programacion III</p>
       <p>Academic prototype for educational use.</p>
     </footer>

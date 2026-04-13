@@ -1,26 +1,19 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.css'],
-  standalone: false
+  standalone: false,
 })
 export class ChatComponent {
-  @Input() displayName = 'Carlos Gardel';
-  @Output() logoutRequested = new EventEmitter<void>();
+  readonly displayName = 'Carlos Gardel';
+  readonly initials = 'CG';
 
-  get initials(): string {
-    const parts = this.displayName.trim().split(/\s+/).slice(0, 2);
-
-    if (!parts.length) {
-      return 'UU';
-    }
-
-    return parts.map((part) => part[0]?.toUpperCase() || '').join('');
-  }
+  constructor(private readonly router: Router) {}
 
   onLogoutClick(): void {
-    this.logoutRequested.emit();
+    this.router.navigate(['/login']);
   }
 }

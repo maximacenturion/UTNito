@@ -1,10 +1,1 @@
-<app-login
-  *ngIf="currentView === 'login'"
-  (loginRequested)="onLoginRequested($event)"
-></app-login>
-
-<app-chat
-  *ngIf="currentView === 'chat'"
-  [displayName]="displayName"
-  (logoutRequested)="onLogoutRequested()"
-></app-chat>
+<router-outlet></router-outlet>

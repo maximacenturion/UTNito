@@ -1,8 +1,12 @@
+<!-- Muestra el componente de login SOLO si currentView es 'login' -->
+<!-- (loginRequested) escucha el evento que emite LoginComponent y llama a onLoginRequested -->
 <app-login
   *ngIf="currentView === 'login'"
   (loginRequested)="onLoginRequested($event)"
 ></app-login>
-
+<!-- Muestra el componente de chat SOLO si currentView es 'chat' -->
+<!-- [displayName] pasa el nombre del usuario al ChatComponent como Input -->
+<!-- (logoutRequested) escucha el evento de logout y llama a onLogoutRequested -->
 <app-chat
   *ngIf="currentView === 'chat'"
   [displayName]="displayName"

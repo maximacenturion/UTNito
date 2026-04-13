@@ -1,16 +1,17 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
-  standalone: false
+  standalone: false,
 })
 export class LoginComponent {
-  @Output() loginRequested = new EventEmitter<string>();
+  constructor(private readonly router: Router) {}
 
-  onSubmit(event: Event, username: string): void {
+  onSubmit(event: Event, _username?: string): void {
     event.preventDefault();
-    this.loginRequested.emit(username);
+    this.router.navigate(['/chat']);
   }
 }

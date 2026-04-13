@@ -1,4 +1,4 @@
-:host {
-  display: block;
-  min-height: 100vh;
+:host { /* :host apunta al elemento raíz del componente (<app-root>) */
+  display: block; /* Lo convierte en elemento de bloque (por defecto los custom elements son inline) */
+  min-height: 100vh; /* Ocupa al menos toda la altura de la pantalla */
 }
