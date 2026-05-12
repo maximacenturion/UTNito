@@ -19,6 +19,12 @@ Clases actuales:
 - [`class-04-javascript-fetch-basics`](./class-04-javascript-fetch-basics)
 - [`class-05-angular-migrate-login-chat`](./class-05-angular-migrate-login-chat)
 - [`class-06-angular-components-routing`](./class-06-angular-components-routing)
+- [`class-07-angular-binding-events-forms`](./class-07-angular-binding-events-forms)
+- [`class-08-angular-chat-local-state`](./class-08-angular-chat-local-state)
+- [`class-09-angular-services-models`](./class-09-angular-services-models)
+- [`class-10-angular-async-http`](./class-10-angular-async-http)
+- [`class-11-api-contract-swagger-first`](./class-11-api-contract-swagger-first)
+- [`class-12-backend-mock-fast-nestjs`](./class-12-backend-mock-fast-nestjs)
 
 ## English
 
@@ -39,3 +45,9 @@ Current classes:
 - [`class-04-javascript-fetch-basics`](./class-04-javascript-fetch-basics)
 - [`class-05-angular-migrate-login-chat`](./class-05-angular-migrate-login-chat)
 - [`class-06-angular-components-routing`](./class-06-angular-components-routing)
+- [`class-07-angular-binding-events-forms`](./class-07-angular-binding-events-forms)
+- [`class-08-angular-chat-local-state`](./class-08-angular-chat-local-state)
+- [`class-09-angular-services-models`](./class-09-angular-services-models)
+- [`class-10-angular-async-http`](./class-10-angular-async-http)
+- [`class-11-api-contract-swagger-first`](./class-11-api-contract-swagger-first)
+- [`class-12-backend-mock-fast-nestjs`](./class-12-backend-mock-fast-nestjs)

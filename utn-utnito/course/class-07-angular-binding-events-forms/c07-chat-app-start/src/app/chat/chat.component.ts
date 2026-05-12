@@ -11,27 +11,7 @@ export class ChatComponent {
   readonly displayName = 'Carlos Gardel';
   readonly initials = 'CG';
 
-  draftMessage = '';
-  lastSentMessage = '';
-
   constructor(private readonly router: Router) {}
-
-  onDraftInput(value: string): void {
-    this.draftMessage = value;
-  }
-
-  onComposerSubmit(event: Event): void {
-    event.preventDefault();
-
-    const normalized = this.draftMessage.trim();
-    if (!normalized) {
-      return;
-    }
-
-    console.log('[step-5] message submitted:', normalized);
-    this.lastSentMessage = normalized;
-    this.draftMessage = '';
-  }
 
   onLogoutClick(): void {
     this.router.navigate(['/login']);
